@@ -1,0 +1,20 @@
+{
+  "name": "lesson1",
+  "version": "1.1.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "run_ip_map": "iponmap 185.237.74.199"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "express": "^4.17.1"
+  },
+  "devDependencies": {
+    "iponmap": "^1.1.0",
+    "nodemon": "^2.0.4"
+  }
+}
