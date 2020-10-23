@@ -106,7 +106,7 @@ async function updateUser(req, res) {
     const result = await usersCollection.updateOne({
         _id: ObjectID(id)
     }, {
-        $set: {req.body},
+        $set: req.body,
     });
 
     if (!result.modifiedCount) {
