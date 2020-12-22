@@ -5,7 +5,7 @@
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "cd node-js-online/lesson3 && npm install && node app.js"
+    "start": "cd node-js-36/lesson3 && npm i && node app.js"
   },
   "repository": {
     "type": "git",
