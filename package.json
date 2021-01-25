@@ -5,7 +5,7 @@
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "cd node-js-36/lesson3 && npm i && node app.js"
+    "start": "cd bc-2-online/lesson3 && npm i && node app.js"
   },
   "repository": {
     "type": "git",
@@ -17,5 +17,8 @@
   "bugs": {
     "url": "https://github.com/zubr13/node-js-go-it/issues"
   },
-  "homepage": "https://github.com/zubr13/node-js-go-it#readme"
+  "homepage": "https://github.com/zubr13/node-js-go-it#readme",
+  "dependencies": {
+    "express": "^4.17.1"
+  }
 }
