@@ -5,11 +5,21 @@ const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
 
 const User = require('./User');
+const Task = require('../task/Task');
 
 async function getUsers(req, res) {
   const currentUser = req.user;
   console.log('currentUser', currentUser);
-  const users = await User.find();
+  const users = await User.aggregate([
+    {
+      $lookup: {
+        from: 'tasks',
+        localField: 'taskIds',
+        foreignField: '_id',
+        as: 'tasks',
+      },
+    },
+  ]);
   res.json(users);
 }
 
@@ -74,7 +84,7 @@ async function getUser(req, res) {
     params: { id },
   } = req;
 
-  const user = await User.findById(id);
+  const user = await User.findById(id).populate('taskIds');
 
   if (!user) {
     return res.status(400).send("User isn't found");
@@ -88,11 +98,13 @@ async function createUserTask(req, res) {
     params: { id },
   } = req;
 
+  const task = await Task.create(req.body);
+
   const user = await User.findByIdAndUpdate(
     id,
     {
       $push: {
-        tasks: req.body,
+        taskIds: task._id,
       },
     },
     {

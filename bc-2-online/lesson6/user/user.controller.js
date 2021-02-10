@@ -1,136 +1,137 @@
 const {
-    Types: { ObjectId },
+  Types: { ObjectId },
 } = require('mongoose');
 const User = require('./User');
 
 async function getUsers(req, res) {
-    const users = await User.find();
-    res.json(users);
+  const users = await User.find();
+  res.json(users);
 }
 
 async function createUser(req, res) {
-    try {
-        const { body } = req;
-        const user = await User.create(body);
-        res.json(user);
-    } catch (error) {
-        res.status(400).send(error);
-    }
+  try {
+    const { body } = req;
+    const user = await User.create(body);
+    res.json(user);
+  } catch (error) {
+    res.status(400).send(error);
+  }
 }
 
 async function updateUser(req, res) {
-    const {
-        params: { id },
-    } = req;
+  const {
+    params: { id },
+  } = req;
 
-    const updatedUser = await User.findByIdAndUpdate(id, req.body, {
-        new: true,
-    });
+  const updatedUser = await User.findByIdAndUpdate(id, req.body, {
+    new: true,
+  });
 
-    if (!updatedUser) {
-        return res.status(400).send("User isn't found");
-    }
+  if (!updatedUser) {
+    return res.status(400).send("User isn't found");
+  }
 
-    res.json(updatedUser);
+  res.json(updatedUser);
 }
 
 async function deleteUser(req, res) {
-    const {
-        params: { id },
-    } = req;
+  const {
+    params: { id },
+  } = req;
 
-    const deletedUser = await User.findByIdAndDelete(id);
+  const deletedUser = await User.findByIdAndDelete(id);
 
-    if (!deletedUser) {
-        return res.status(400).send("User isn't found");
-    }
+  if (!deletedUser) {
+    return res.status(400).send("User isn't found");
+  }
 
-    res.json(deletedUser);
+  res.json(deletedUser);
 }
 
 function validateId(req, res, next) {
-    const {
-        params: { id },
-    } = req;
+  const {
+    params: { id },
+  } = req;
 
-    if (!ObjectId.isValid(id)) {
-        return res.status(400).send('Your id is not valid');
-    }
+  if (!ObjectId.isValid(id)) {
+    return res.status(400).send('Your id is not valid');
+  }
 
-    next();
+  next();
 }
 
 async function getUser(req, res) {
-    const {
-        params: { id },
-    } = req;
+  const {
+    params: { id },
+  } = req;
 
-    const user = await User.findById(id);
+  const user = await User.findById(id);
 
-    if (!user) {
-        return res.status(400).send("User isn't found");
-    }
+  if (!user) {
+    //throw new Error('User is not found');
+    return res.status(400).send("User isn't found");
+  }
 
-    res.json(user);
+  res.json(user);
 }
 
 async function createUserTask(req, res) {
-    const {
-        params: { id },
-    } = req;
+  const {
+    params: { id },
+  } = req;
 
-    const user = await User.findByIdAndUpdate(
-        id,
-        {
-            $push: {
-                tasks: req.body,
-            },
-        },
-        {
-            new: true,
-        }
-    );
-
-    if (!user) {
-        return res.status(400).send("User isn't found");
+  const user = await User.findByIdAndUpdate(
+    id,
+    {
+      $push: {
+        tasks: req.body,
+      },
+    },
+    {
+      new: true,
     }
+  );
 
-    res.json(user);
+  if (!user) {
+    return res.status(400).send("User isn't found");
+  }
+
+  res.json(user);
 }
 
 async function deleteUserTask(req, res) {
-    const {
-        params: { userId, taskId },
-    } = req;
+  const {
+    params: { userId, taskId },
+  } = req;
 
-    const user = await User.findByIdAndUpdate(
-        userId,
-        {
-            $pull: {
-                tasks: {
-                    _id: taskId,
-                },
-            },
+  const user = await User.findByIdAndUpdate(
+    userId,
+    {
+      $pull: {
+        tasks: {
+          _id: taskId,
         },
-        {
-            new: true,
-        }
-    );
-
-    if (!user) {
-        return res.status(400).send("User isn't found");
+      },
+    },
+    {
+      new: true,
     }
+  );
 
-    res.json(user);
+  if (!user) {
+    return res.status(400).send("User isn't found");
+  }
+
+  res.json(user);
 }
 
 module.exports = {
-    getUsers,
-    createUser,
-    updateUser,
-    deleteUser,
-    validateId,
-    getUser,
-    createUserTask,
-    deleteUserTask,
+  getUsers,
+  createUser,
+  updateUser,
+  deleteUser,
+  validateId,
+  getUser,
+  createUserTask,
+  deleteUserTask,
 };

@@ -3,10 +3,11 @@ const mongoose = require('mongoose');
 const morgan = require('morgan');
 const dotenv = require('dotenv');
 const userRouter = require('./user/user.routes');
+const taskRouter = require('./task/task.routes');
 
 dotenv.config();
 
-//mongoose.set('debug', true);
+mongoose.set('debug', true);
 
 // 1. Init express server
 // 2. Connect middlewares
@@ -37,6 +38,7 @@ function connectMiddlewares(app) {
 
 function declareRoutes(app) {
   app.use('/users', userRouter);
+  app.use('/tasks', taskRouter);
 }
 
 async function connectToDb() {

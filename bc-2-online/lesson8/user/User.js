@@ -1,6 +1,9 @@
 const mongoose = require('mongoose');
 
-const { Schema } = mongoose;
+const {
+  Schema,
+  Types: { ObjectId },
+} = mongoose;
 
 const UserSchema = new Schema({
   name: {
@@ -18,16 +21,10 @@ const UserSchema = new Schema({
     type: String,
     required: true,
   },
-  tasks: [
+  taskIds: [
     {
-      title: {
-        type: String,
-        required: true,
-      },
-      description: {
-        type: String,
-        required: true,
-      },
+      type: ObjectId,
+      ref: 'Task',
     },
   ],
 });
