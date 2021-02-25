@@ -168,10 +168,23 @@ async function login(req, res) {
     {
       userId: user._id,
     },
-    process.env.JWT_SECRET
+    process.env.JWT_SECRET,
+    {
+      expiresIn: 60 * 60 * 1000,
+    }
   );
 
-  return res.json({ token });
+  const refreshToken = jwt.sign(
+    {
+      userId: user._id,
+    },
+    process.env.JWT_SECRET,
+    {
+      expiresIn: 30 * 24 * 60 * 60 * 1000,
+    }
+  );
+
+  return res.json({ token, refreshToken });
 }
 
 async function authorize(req, res, next) {

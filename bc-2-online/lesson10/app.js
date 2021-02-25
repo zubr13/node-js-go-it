@@ -7,7 +7,7 @@ const taskRouter = require('./task/task.routes');
 
 dotenv.config();
 
-mongoose.set('debug', true);
+// mongoose.set('debug', true);
 
 // 1. Init express server
 // 2. Connect middlewares

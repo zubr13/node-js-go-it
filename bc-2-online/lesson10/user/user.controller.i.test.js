@@ -4,7 +4,9 @@ const app = require('../app');
 describe('Should test /users api', () => {
   describe('Should test GET /users route', () => {
     it('Should test that without token 401 status code is returned', async () => {
-      const response = await request(app).get('/users');
+      const response = await request(app)
+        .get('/users')
+        .set('Authorization', '4432dfs3fwf3e');
       expect(response.statusCode).toBe(401);
     });
     it('Should test that on success status code 200 is returned', async () => {
@@ -24,7 +26,7 @@ describe('Should test /users api', () => {
           'Authorization',
           'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2MDI0MmJmZDk4ZmM3ZGNlYjcyZjdkZmQiLCJpYXQiOjE2MTI5ODMzNzZ9.3AIvEJoaS1fMhYJWjDnewRqwfHxG4XKyS3fdRtbGO3o'
         );
-      expect(response.body.email).toBe('arnold@gmail.com');
+      expect(typeof response.body.email).toBe('string');
     });
   });
 });
